@@ -4,6 +4,21 @@ This Chrome Extension is a dual-mode tool for cookie security auditing and penet
 
 ---
 
+## 🧩 Manual Installation (for testers)
+
+1. Clone or download this repo:
+   [Download ZIP](https://github.com/Lakshan2000610/cookie-checker-extension.git)
+
+2. Open `chrome://extensions/` in Chrome
+
+3. Enable **Developer Mode** (top right)
+
+4. Click **Load Unpacked** and select the extracted folder
+
+✅ That’s it — the extension will now run locally!
+
+---
+
 ## 🚀 Features
 
 ### 🧭 Dual Mode Support
