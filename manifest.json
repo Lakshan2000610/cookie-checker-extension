@@ -1,0 +1,31 @@
+{
+  "manifest_version": 3,
+  "name": "Cookie Security Extension",
+  "version": "1.0",
+  "description": "Cookie analyzer for users and pentesters",
+  "permissions": [
+    "cookies",
+    "tabs",
+    "scripting",
+    "activeTab",
+    "storage",
+    "webRequest",
+    "webRequestBlocking"
+  ],
+  "icons": {
+  "128": "icon/icon128.png"
+  },
+
+  "host_permissions": ["<all_urls>"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_icon": {
+    "128": "icon/icon128.png"
+  },
+  "default_title": "Cookie Toolkit",
+    "default_popup": "popup.html"
+    
+  }
+}

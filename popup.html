@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Cookie Extension</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <!-- Header Section -->
+  <div class="header">
+    <div class="logo-section">
+      <div class="logo">
+        <img src="icon/logo.png" style="width: 20px; height: 20px;" alt="Logo">
+      </div>
+      <h1>Cookise Extension</h1>
+    </div>
+    <div class="mode-toggle">
+      <button id="btnUser" class="mode-btn">USER</button>
+      <button id="btnPentester" class="mode-btn">Pentester</button>
+    </div>
+  </div>
+
+  <!-- USER MODE LAYOUT -->
+  <div id="userUI" class="mode-view">
+    <label for="domainSelectUser">Select Domain</label>
+    <select id="domainSelectUser"></select>
+
+    <div id="riskFiltersUser">
+      <label><input type="checkbox" value="High" checked> 🔴 High</label>
+      <label><input type="checkbox" value="Medium" checked> 🟠 Medium</label>
+      <label><input type="checkbox" value="Low" checked> 🟢 Low</label>
+    </div>
+
+    <table class="log-table">
+      <thead><tr><th>URL</th></tr></thead>
+      <tbody id="reportUser"></tbody>
+    </table>
+
+    <div class="export-buttons">
+      <button id="exportUserJSON">Export JSON</button>
+      <button id="exportUserCSV">Export CSV</button>
+      <button id="copyHeaderUser">Copy as Cookie Header</button>
+    </div>
+  </div>
+
+  
+  <!-- PENTESTER MODE LAYOUT -->
+  <div id="pentesterUI" class="mode-view" style="display:none;">
+    <div class="pentester-layout">
+      <aside class="sidebar">
+        <button class="nav-btn" data-tab="auditing">🍪</button>
+        <button class="nav-btn" data-tab="network">🌐</button>
+        <button class="nav-btn" data-tab="rules">⚙️</button>
+        <button class="nav-btn" data-tab="toolkit">🧪</button>
+        <button class="nav-btn" data-tab="reporting">📊</button>
+
+      </aside>
+
+      <main class="main">
+        <!-- 1. Auditing -->
+        <section id="tab-auditing" class="tab active">
+          <h3>Auditing</h3>
+          <label for="domainSelect">Select Domain</label>
+          <select id="domainSelect"></select>
+
+          <div id="riskFilters">
+            <label><input type="checkbox" value="High" checked> 🔴 High</label>
+            <label><input type="checkbox" value="Medium" checked> 🟠 Medium</label>
+            <label><input type="checkbox" value="Low" checked> 🟢 Low</label>
+          </div>
+
+          <div id="report"></div>
+
+          <div class="export-buttons">
+            <button id="exportJSON">Export JSON</button>
+            <button id="exportCSV">Export CSV</button>
+            <button id="copyHeader">Copy as Cookie Header</button>
+          </div>
+        </section>
+
+        <!-- 2. Network -->
+        <section id="tab-network" class="tab">
+          <h3>Request Analysis</h3>
+          <div id="logFilters">
+            <label><input type="checkbox" value="http" checked> 🔓 HTTP Only</label>
+            <label><input type="checkbox" value="cookie" checked> 🍪 With Cookies</label>
+          </div>
+          <div id="requestLogs"></div>
+          <button id="exportRequestsJSON">Export Requests (JSON)</button>
+          <button id="exportRequestsCSV">Export Requests (CSV)</button>
+        </section>
+
+        <!-- 3. Rule Engine -->
+        <section id="tab-rules" class="tab">
+          <h3>Custom Rules</h3>
+          <label><input type="number" id="minLength" value="12"> Min Length</label><br>
+          <label><input type="checkbox" id="requireSecure" checked> Require Secure</label><br>
+          <label><input type="checkbox" id="requireHttpOnly" checked> Require HttpOnly</label><br>
+          <label><input type="checkbox" id="requireSameSite" checked> Require SameSite</label><br>
+          <label><input type="checkbox" id="enableBlocking"> Enable Blocking</label><br>
+          <button id="saveRules">Save Rules</button>
+          <button id="resetRules" style="margin-top:10px;">Reset to Default</button>
+
+        </section>
+
+        <section id="tab-toolkit" class="tab">
+          <h3>🧪 Penetration Toolkit</h3>
+        
+          <label for="attackSelect">Choose Attack Type:</label>
+          <select id="attackSelect">
+            <option value="session">Session Hijack</option>
+            <option value="xss">XSS Injection</option>
+            <option value="csrf">CSRF Simulation</option>
+          </select>
+        
+          <div id="attack-session" class="attack-panel">
+            <h4>🛡️ Session Hijack</h4>
+            <label>Cookie Name: <input type="text" id="cookieName" placeholder="e.g. session_id"></label>
+            <label>Cookie Value: <input type="text" id="cookieValue" placeholder="e.g. admin123"></label>
+            <button id="injectCookie">Inject Cookie</button>
+          </div>
+        
+          <div id="attack-xss" class="attack-panel" style="display:none;">
+            <h4>💥 XSS Injection</h4>
+            <label>Cookie Name: <input type="text" id="xssCookieName" value="xss_test" /></label>
+            <label>Payload: <input type="text" id="xssPayload" value="<script>alert('XSS')</script>" /></label>
+            <button id="injectXSS">Inject XSS Cookie</button>
+          </div>
+        
+          <div id="attack-csrf" class="attack-panel" style="display:none;">
+            <h4>🎯 CSRF Simulation</h4>
+            <label>Target URL: <input type="text" id="csrfUrl" placeholder="https://target.com/change"></label>
+            <label>Payload (JSON): <textarea id="csrfPayload" rows="4">{ "user": "admin" }</textarea></label>
+            <button id="triggerCSRF">Send Forged Request</button>
+          </div>
+        </section>
+        
+
+<!-- Tab 5: Timeline Viewer – View All Injections -->
+<section id="tab-reporting" class="tab">
+  <h3>📈 Cookie Injection Timeline</h3>
+
+  <!-- Timeline filter will be inserted here dynamically -->
+  <div id="timelineFilterContainer"></div>
+
+  <div id="timelineData"></div>
+</section>
+
+
+      </main>
+    </div>
+  </div>
+
+  
+  
+  <script src="utils.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
